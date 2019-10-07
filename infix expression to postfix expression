@@ -1,0 +1,70 @@
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#define max 30
+
+
+char stack[max];
+int top=-1;
+
+
+void push(char item)
+{
+stack[++top]=item;
+}
+
+
+char pop()
+{
+return stack[top--];
+}
+
+
+int priority(char item)
+{
+switch(item)
+ {
+ case '(':return 1;
+ case '+':
+ case '-':return 2;
+ case '*':
+ case '/':return 3;
+ default:return 0;
+ }
+}
+
+void main()
+{
+char infx[50],pofx[50],ch,item;
+int i=0,k=0;
+clrscr();
+printf("\n Read infix expression:");
+scanf("%s",infx);
+push('(');
+while(infx[i]!='\0')
+ {
+  ch=infx[i++];
+  if(ch=='(')
+  push(ch);
+  else if(isalnum(ch))
+  pofx[k++]=ch;
+  else if(ch==')')
+   {
+    while(stack[top]!='(')
+    pofx[k++]=pop();
+    pop();
+   }
+   else
+   {
+   while(priority(stack[top])>=priority(ch))
+   pofx[k++]=pop();
+   push(ch);
+   }
+ }
+   while(top!=-1)
+   pofx[k++]=pop();
+   pofx[k]='\0';
+   printf("Postfix is=%s",pofx);
+   getch();
+
+}
