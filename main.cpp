@@ -1,46 +1,30 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include <iostream>
 
-bool sortbyratio(const pair<int,int> &a, const pair<int,int> &b){
-    return ((a.first/a.second)>(b.first/b.second));
-}
-
-double get_optimal_value(int capacity, vector<int> weights, vector<int> values) {
-  vector< pair <double,double> > vect;
-  int s = weights.size();
-  for(int i=0;i<s;i++){
-    vect.push_back(make_pair(values[i],weights[i]));
-  }
-  sort(vect.begin(),vect.end(),sortbyratio);
-  int k=0;
-  double value = 0.0;
-for(int i = 0; i<s;i++){
-    if(k+vect[i].second<=capacity){
-        k+=vect[i].second;
-        value+=vect[i].first;
+int gcd_naive(int a, int b) {
+  int current_gcd = 1;
+  for (int d = 2; d <= a && d <= b; d++) {
+    if (a % d == 0 && b % d == 0) {
+      if (d > current_gcd) {
+        current_gcd = d;
+      }
     }
-    else{
-        int remain=capacity-k;
-        value+=vect[i].first*((double)remain/vect[i].second);
-    }
-}
-
-  return value;
-}
-
-int main() {
-  int n;
-  int capacity;
-  std::cin >> n >> capacity;
-  vector<int> values(n);
-  vector<int> weights(n);
-  for (int i = 0; i < n; i++) {
-    std::cin >> values[i] >> weights[i];
   }
+  return current_gcd;
+}
+int gcd_fast(int a,int b){
+     int r;
+    while(r!=0){
+        r=a%b;
+        a=b;
+        b=r;
+    }
+    return a;
+}
+int main()
+{
 
-  double optimal_value =  get_optimal_value(capacity, weights, values);
-
- std::cout.precision(7);
-  std::cout << optimal_value << std::endl;
-  return 0;
+  int a, b;
+  std::cin >> a >> b;
+   std::cout << gcd_fast(a, b) << std::endl;
+   return 0;
 }
