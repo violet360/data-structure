@@ -1,46 +1,42 @@
 #include <iostream>
-
+#include <vector>
+#include <iostream>
+#include <vector>
 using namespace std;
-long long pisano_num(long long m,long long n)
-{
-    long long a=0,b=1,c=a+b;
-    if(n>=m){
-    for(long long i=0;i<m*m;i++)
-    {
-        c=(a+b)%m;
-        a=b;
-        b=c;
-        if(a==0&&b==1)
-            return i+1;
+
+int compute_min_refills(int dist, int tank, vector<int> & stops) {
+   int numRefills=0, currentRefill=0;
+   int n = stops.size();
+   while(currentRefill<=n){
+    int lastRefill=currentRefill;
+    while(currentRefill<=n&&(stops[currentRefill+1]-stops[lastRefill])<=tank){
+        currentRefill=currentRefill+1;
     }
-    }
-    else{
-        for(long long i=0;i<n;i++)
-    {
-        c=(a+b)%m;
-        a=b;
-        b=c;
-    }
-    return a;
+    if(currentRefill==lastRefill)
+        return -1;
+    if(currentRefill<=n)
+        numRefills=numRefills+1;
+   }
+   return numRefills;
 }
-}
-int fibonacci_fast(long long m, long long n) {
-     long long a=1,b=1,t=0;
-    for(int i=1;i<=n;i++){
-        t=a;
-        a=b;
-        b=t+b;
-        b=b%m;
-    }
-    return t;
-}
-int main()
-{
-    long long n,m;
-    cin>>n>>m;
-   if(n>=m)
-    cout<<fibonacci_fast(m,(n%pisano_num(m,n)))<<endl;
-    else
-        cout<<pisano_num(m,n)%m<<endl;
+
+
+int main() {
+    int d = 0;
+    cin >> d;
+    int m = 0;
+    cin >> m;
+    int n = 0;
+    cin >> n;
+
+    vector<int> stops(n);
+    for (size_t i = 0; i < n; ++i)
+        cin >> stops.at(i);
+
+    cout << compute_min_refills(d, m, stops) << "\n";
+
     return 0;
 }
+
+
+
