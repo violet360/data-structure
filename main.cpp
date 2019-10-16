@@ -1,30 +1,46 @@
 #include <iostream>
 
-int gcd_naive(int a, int b) {
-  int current_gcd = 1;
-  for (int d = 2; d <= a && d <= b; d++) {
-    if (a % d == 0 && b % d == 0) {
-      if (d > current_gcd) {
-        current_gcd = d;
-      }
-    }
-  }
-  return current_gcd;
-}
-int gcd_fast(int a,int b){
-     int r;
-    while(r!=0){
-        r=a%b;
+using namespace std;
+long long pisano_num(long long m,long long n)
+{
+    long long a=0,b=1,c=a+b;
+    if(n>=m){
+    for(long long i=0;i<m*m;i++)
+    {
+        c=(a+b)%m;
         a=b;
-        b=r;
+        b=c;
+        if(a==0&&b==1)
+            return i+1;
+    }
+    }
+    else{
+        for(long long i=0;i<n;i++)
+    {
+        c=(a+b)%m;
+        a=b;
+        b=c;
     }
     return a;
 }
+}
+int fibonacci_fast(long long m, long long n) {
+     long long a=1,b=1,t=0;
+    for(int i=1;i<=n;i++){
+        t=a;
+        a=b;
+        b=t+b;
+        b=b%m;
+    }
+    return t;
+}
 int main()
 {
-
-  int a, b;
-  std::cin >> a >> b;
-   std::cout << gcd_fast(a, b) << std::endl;
-   return 0;
+    long long n,m;
+    cin>>n>>m;
+   if(n>=m)
+    cout<<fibonacci_fast(m,(n%pisano_num(m,n)))<<endl;
+    else
+        cout<<pisano_num(m,n)%m<<endl;
+    return 0;
 }
